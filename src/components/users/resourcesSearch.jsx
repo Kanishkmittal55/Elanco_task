@@ -1,15 +1,16 @@
 import { useState, useContext } from "react";
-import GithubContext from "../../context/github/GithubContext";
+import theContext from "../../context/github/theContext";
 import AlertContext from "../../context/alert/AlertContext";
+import { Link } from "react-router-dom";
 
-function UserSearch() {
+function ResourcesSearch() {
   const {
     searchAllResources,
     getAllResources,
-    clearUsers,
+    clearResources,
     resources,
     resourceData
-  } = useContext(GithubContext);
+  } = useContext(theContext);
   const { setAlert } = useContext(AlertContext);
 
   const [text, setText] = useState("");
@@ -34,29 +35,11 @@ function UserSearch() {
     getAllResources();
   };
 
-  const handleClick = () => clearUsers();
-
-  // Handler functions for Resources Button
-
-  //   const handleSubmitResources = (e) => {
-  //     e.preventDefault();
-
-  //     if (text === "") {
-  //       setAlert("Please enter something", "error");
-  //     } else {
-  //       searchAllResources(text);
-
-  //       setResources("");
-  //     }
-  //   };
-
-  //   const handleClickResources = () => {
-  //     clearUsers();
-  //   };
+  const handleClick = () => clearResources();
 
   return (
     <>
-      <div className="grid grid-cols-1 xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-2 mb-8 gap-8">
+      <div className="grid grid-cols-1 xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-2 mb-8 gap-8 items-center">
         {/*Resources Search Form */}
 
         <div>
@@ -72,7 +55,7 @@ function UserSearch() {
                   Get All Resources in the Database
                 </button>
                 <br />
-                <h2>Or</h2>
+                <h2 className="ml-5 mt-7">Or</h2>
                 <br />
                 <div className="ml-5">Search For a Specific Resource :</div>
                 <br />
@@ -85,8 +68,7 @@ function UserSearch() {
                 />
                 <button
                   type="submit"
-                  className="float-right rounded-2-none w-36 btn btn-lg"
-                  onClick={handleSubmit}
+                  className="absolute top-30 right-0 rounded-1-none w-36 btn btn-lg"
                 >
                   Go
                 </button>
@@ -96,7 +78,7 @@ function UserSearch() {
         </div>
 
         {/*Clear Button */}
-        {resourceData.length > 0 && (
+        {resources.length > 0 && (
           <div className="pl-5">
             <button onClick={handleClick} className="btn btn-ghost btn-lg">
               Clear
@@ -108,4 +90,4 @@ function UserSearch() {
   );
 }
 
-export default UserSearch;
+export default ResourcesSearch;

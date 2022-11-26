@@ -1,13 +1,13 @@
 import React from "react";
-import UserResourcesResults from "../components/users/UserResourcesResult";
-import UserResourcesSearch from "../components/users/UserResoucesSearch";
+import ResourcesResults from "../components/users/resourcesResult";
+import ResourcesSearch from "../components/users/resourcesSearch";
 
 function Home() {
   return (
     <div>
       {/*Search Component  */}
-      <UserResourcesSearch />
-      <UserResourcesResults />
+      <ResourcesSearch />
+      <ResourcesResults />
     </div>
   );
 }

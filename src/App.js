@@ -3,11 +3,12 @@ import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
 import Alert from "./components/layout/Alert";
 import About from "./pages/About";
-import Home from "./pages/Home";
+import Applications from "./pages/applications";
 import NotFound from "./pages/NotFound";
-import User from "./pages/User";
+import ApplicationView from "./pages/applicationView";
+import Resource from "./components/users/resource";
 import Resources from "./pages/resources";
-import { GithubProvider } from "./context/github/GithubContext";
+import { GithubProvider } from "./context/github/theContext";
 import { AlertProvider } from "./context/alert/AlertContext";
 
 function App() {
@@ -20,11 +21,16 @@ function App() {
             <Alert />
             <Routes>
               <Route path="/about" element={<About />} />
-              <Route path="/user/:login" element={<User />} />
-              <Route path="/" element={<Home />} />
+              <Route path="/resources/:login" element={<Resource />} />
+              <Route path="/applications" element={<Applications />} />
+              <Route
+                path="/applications/:login"
+                element={<ApplicationView />}
+              />
               <Route path="/resources" element={<Resources />} />
               <Route path="/notFound" element={<NotFound />} />
               <Route path="/*" element={<NotFound />} />
+              <Route path="/" element={<About />} />
             </Routes>
 
             <Footer />

@@ -1,29 +1,48 @@
 import { createContext, useReducer } from "react";
 import { createRenderer } from "react-dom/test-utils";
-import githubReducer from "./GithubReducer";
+import theReducer from "./theReducer";
 
-const GithubContext = createContext();
+const theContext = createContext();
 
 const URI = process.env.REACT_APP_URL;
 
 export const GithubProvider = ({ children }) => {
   const initialState = {
-    users: [],
+    applicationData: [],
     applications: [],
     resources: [],
     resourceData: [],
-    user: {},
     loading: false
   };
 
-  const [state, dispatch] = useReducer(githubReducer, initialState);
+  const [state, dispatch] = useReducer(theReducer, initialState);
 
-  // Get search results
+  // Search all Applications
   const searchAllApplications = async (text) => {
     console.log(`${URI}/applications`);
     setLoading();
 
     const response = await fetch(`${URI}/applications/${text}`);
+
+    if (response.status === 404) {
+      window.location = "/notFound";
+    } else {
+      const data = await response.json();
+      window.location = `/applications/${text}`;
+      dispatch({
+        type: "GET_APPLICATION",
+        payload: data
+      });
+    }
+  };
+
+  // just Search all Applications
+  const justsearchAllApplications = async (text) => {
+    // console.log(`${URI}/applications`);
+    setLoading();
+
+    const response = await fetch(`${URI}/applications/${text}`);
+
     if (response.status === 404) {
       window.location = "/notFound";
     } else {
@@ -71,7 +90,7 @@ export const GithubProvider = ({ children }) => {
   };
 
   // Get All Resources
-  const getAllResources = async (text) => {
+  const getAllResources = async () => {
     setLoading();
     const response = await fetch(`${URI}/resources`);
     if (response.status === 404) {
@@ -86,28 +105,30 @@ export const GithubProvider = ({ children }) => {
     }
   };
 
-  const clearUsers = () => dispatch({ type: "CLEAR_USERS" });
+  const clearApplications = () => dispatch({ type: "CLEAR_APPLICATIONS" });
+  const clearResources = () => dispatch({ type: "CLEAR_RESOURCES" });
 
   const setLoading = () => dispatch({ type: "SET_LOADING" });
 
   return (
-    <GithubContext.Provider
+    <theContext.Provider
       value={{
-        users: state.users,
-        user: state.user,
+        applicationData: state.applicationData,
         resources: state.resources,
         applications: state.applications,
         resourceData: state.resourceData,
         searchAllApplications,
         getAllApplications,
+        justsearchAllApplications,
         searchAllResources,
         getAllResources,
-        clearUsers
+        clearApplications,
+        clearResources
       }}
     >
       {children}
-    </GithubContext.Provider>
+    </theContext.Provider>
   );
 };
 
-export default GithubContext;
+export default theContext;
